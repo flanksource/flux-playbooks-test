@@ -1,0 +1,27 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: echo-server
+  namespace: playbooks-test
+spec:
+  interval: 10m
+  url: https://ealenn.github.io/charts
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: echo-server
+  namespace: playbooks-test
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: echo-server
+      sourceRef:
+        kind: HelmRepository
+        name: echo-server
+        namespace: playbooks-test
+      interval: 10m
+  values:
+    image:
+      pullPolicy: IfNotPresent
